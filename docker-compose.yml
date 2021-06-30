@@ -1,0 +1,58 @@
+version: '3.8'
+services:
+
+  poke-nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: nginx -g "daemon off;"
+    links:
+      - poke-php
+    ports:
+      - '8000:80'
+    networks:
+      - pokedot
+
+  poke-php:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: php-fpm
+    ports:
+      - 9000
+    networks:
+      - pokedot
+
+  poke-db:
+      image: 'mysql:8.0'
+      ports:
+          - '${DB_PORT:-3306}:3306'
+      environment:
+          MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+          MYSQL_DATABASE: '${DB_DATABASE}'
+          MYSQL_USER: '${DB_USERNAME}'
+          MYSQL_PASSWORD: '${DB_PASSWORD}'
+          MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      volumes:
+          - pokedb:/var/lib/mysql
+      networks:
+          - pokedot
+      healthcheck:
+        test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
+        retries: 3
+        timeout: 5s
+
+networks:
+    pokedot:
+        name: pokedot
+        driver: bridge
+
+volumes:
+    pokedb:
+        driver: local
