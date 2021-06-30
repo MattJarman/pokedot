@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+case "$1" in
+"up")
+    shift
+    docker-compose up -d
+    ;;
+"down")
+    shift
+    docker-compose down
+    ;;
+"phpcs")
+    shift
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php ./vendor/bin/phpcs "$@"
+    ;;
+"phpcbf")
+    shift
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php ./vendor/bin/phpcbf "$@"
+    ;;
+"phpstan")
+    shift
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php ./vendor/bin/phpstan "$@"
+    ;;
+"tests")
+    shift
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php ./vendor/bin/phpunit "$@"
+    ;;
+"tinker")
+    shift
+    docker-compose run --rm poke-php php artisan tinker
+    ;;
+*)
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php "$@"
+    ;;
+esac
