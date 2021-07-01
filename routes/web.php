@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Models\Pokemon;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +18,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', static function () {
     return view('welcome');
+});
+
+Route::get('/test', static function () {
+    return Pokemon::with('abilities.prose')
+        ->where('id', 1)
+        ->firstOrFail()
+        ->toArray();
 });
