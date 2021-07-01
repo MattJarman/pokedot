@@ -21,7 +21,7 @@ class Ability extends Model
 
     public function prose(): HasOne
     {
-        return $this->hasOne(AbilityProse::class)->whereHas('language', static function ($query) {
+        return $this->hasOne(AbilityProse::class)->whereHas('language', static function ($query): void {
             $query->where('iso639', App::getLocale());
         });
     }

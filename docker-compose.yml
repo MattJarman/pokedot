@@ -29,6 +29,15 @@ services:
     networks:
       - pokedot
 
+  poke-node:
+    image: node:14-alpine
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    entrypoint: 'npm run watch'
+    networks:
+      - pokedot
+
   poke-db:
       image: 'mysql:8.0'
       ports:
