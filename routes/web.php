@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Pokemon\PokemonController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
