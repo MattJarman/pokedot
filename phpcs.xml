@@ -24,6 +24,7 @@
         <exclude-pattern>app/Providers/*</exclude-pattern>
         <exclude-pattern>app/Exceptions/*</exclude-pattern>
         <exclude-pattern>app/Console/Kernel\.php</exclude-pattern>
+        <exclude-pattern>app/Models/*</exclude-pattern>
     </rule>
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint">
         <exclude-pattern>app/Http/Middleware/*</exclude-pattern>

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Models\Pokemon;
+use App\Http\Controllers\Pokemon\PokemonController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', static function () {
-    return view('welcome');
+    return Inertia::render('Home');
 });
 
-Route::get('/test', static function () {
-    return Pokemon::with('abilities.prose')
-        ->where('id', 1)
-        ->firstOrFail()
-        ->toArray();
-});
+Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', static function () {
+    return Inertia::render('Dashboard');
+})->name('dashboard');
+
+Route::resource('pokemon', PokemonController::class)->only('show');

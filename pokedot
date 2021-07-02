@@ -29,6 +29,10 @@ case "$1" in
     shift
     docker-compose run --rm poke-php php artisan tinker
     ;;
+"npm")
+    shift
+    docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-node npm "$@"
+    ;;
 *)
     docker-compose run --rm --user "$(id -u)":"$(id -g)" poke-php "$@"
     ;;

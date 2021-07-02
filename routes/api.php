@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', static function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', static function (Request $request) {
     return $request->user();
 });

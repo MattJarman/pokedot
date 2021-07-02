@@ -25,7 +25,19 @@ services:
       - ./:/var/www/html
     command: php-fpm
     ports:
-      - 9000
+      - '9000'
+    networks:
+      - pokedot
+
+  poke-node:
+    image: node:14-alpine
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    command: 'npm run watch'
+    ports:
+      - '3000:3000'
+      - '3001:3001'
     networks:
       - pokedot
 
