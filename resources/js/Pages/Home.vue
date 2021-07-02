@@ -1,9 +1,8 @@
 <template>
     <app-layout>
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight capitalize">
-                {{pokemon.identifier}}
-                <p>hello</p>
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Home
             </h2>
         </template>
     </app-layout>
@@ -13,12 +12,16 @@
 import AppLayout from '@/Layouts/AppLayout'
 
 export default {
+    name: 'Home',
     components: {
         AppLayout
     },
     props: {
-        pokemon: Object,
-    },
+        canLogin: Boolean,
+        canRegister: Boolean,
+        laravelVersion: String,
+        phpVersion: String,
+    }
 }
 </script>
 
