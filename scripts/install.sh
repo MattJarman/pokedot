@@ -19,16 +19,30 @@ if [ ! -f .env ]; then
     log "Done."
 fi
 
-log "Installing dependencies."
+log "Installing dependencies..."
 docker-compose run --rm \
     --user "$(id -u)":"$(id -g)" \
     poke-php \
     composer install
 
+docker-compose run --rm \
+    --user "$(id -u)":"$(id -g)" \
+    poke-node \
+    npm install
+
 source .env
 if [ -z "$APP_KEY" ]; then
-    log "No app key set, generating."
+    log "No app key set, generating..."
     docker-compose run --rm \
         poke-php \
         php artisan key:generate
 fi
+
+log "Starting application..."
+docker-compose up -d
+
+log "Running migrations..."
+docker-compose run --rm \
+    --user "$(id -u)":"$(id -g)" \
+    poke-php \
+    php artisan migrate
