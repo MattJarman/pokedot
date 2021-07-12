@@ -25,4 +25,11 @@ class Ability extends Model
             $query->where('iso639', App::getLocale());
         });
     }
+
+    public function name(): HasOne
+    {
+        return $this->hasOne(AbilityName::class)->whereHas('language', static function ($query): void {
+            $query->where('iso639', App::getLocale());
+        });
+    }
 }

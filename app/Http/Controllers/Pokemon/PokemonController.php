@@ -15,7 +15,7 @@ class PokemonController extends Controller
     public function show(Request $request, int $id): Response
     {
         return Inertia::render('Pokemon/Show', [
-            'pokemon' => Pokemon::with('abilities.prose')
+            'pokemon' => Pokemon::with(['abilities.prose', 'abilities.name'])
                 ->where('id', $id)
                 ->firstOrFail(),
         ]);
