@@ -3,7 +3,8 @@
     <jet-banner />
 
     <div class="min-h-screen">
-      <nav class="bg-white border-b border-gray-100">
+        <Popover open="true">
+            <nav class="bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
@@ -165,8 +166,7 @@
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
-              <button
-                @click="showingNavigationDropdown = !showingNavigationDropdown"
+              <PopoverButton
                 class="
                   inline-flex
                   items-center
@@ -198,41 +198,15 @@
                     d="M4 6h16M4 12h16M4 18h16"
                   />
                 </svg>
-              </button>
+              </PopoverButton>
             </div>
           </div>
         </div>
 
         <!-- Responsive Navigation Menu -->
-        <div
-          :class="{
-            block: showingNavigationDropdown,
-            hidden: !showingNavigationDropdown,
-          }"
-          class="sm:hidden"
-        >
-          <div
-            class="
-              absolute
-              top-0
-              inset-x-0
-              transition
-              transform
-              origin-top-right
-              md:hidden
-              p-2
-              z-50
-            "
-          >
-            <div
-              class="
-                rounded-lg
-                shadow-lg
-                ring-1 ring-black ring-opacity-5
-                bg-white
-                divide-y-2 divide-gray-100
-              "
-            >
+        <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+          <PopoverPanel focus class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden z-50">
+            <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 bg-white divide-y-2 divide-gray-50">
               <div class="pt-5 pb-6 px-5">
                 <div class="flex items-center justify-between">
                   <div class="flex-shrink-0 flex items-center">
@@ -241,7 +215,7 @@
                     </inertia-link>
                   </div>
                   <div class="-mr-2">
-                    <button
+                    <PopoverButton
                       class="
                         bg-white
                         rounded-md
@@ -254,7 +228,6 @@
                         hover:bg-gray-100
                         focus:outline-none
                       "
-                      @click="showingNavigationDropdown = false"
                     >
                       <span class="sr-only">Close menu</span>
                       <svg
@@ -265,14 +238,9 @@
                         stroke="currentColor"
                         aria-hidden="true"
                       >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
+                        <path d="M6 18L18 6M6 6l12 12"/>
                       </svg>
-                    </button>
+                    </PopoverButton>
                   </div>
                 </div>
                 <div class="mt-6">
@@ -394,9 +362,10 @@
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </PopoverPanel>
+        </transition>
       </nav>
+    </Popover>
 
       <!-- Page Heading -->
       <header class="bg-white shadow" v-if="$slots.header">
@@ -409,11 +378,12 @@
       <main>
         <slot></slot>
       </main>
-    </div>
+  </div>
   </div>
 </template>
 
 <script>
+import { Popover, PopoverButton, PopoverGroup, PopoverPanel } from '@headlessui/vue'
 import JetApplicationMark from "@/Jetstream/ApplicationMark";
 import JetBanner from "@/Jetstream/Banner";
 import JetDropdown from "@/Jetstream/Dropdown";
@@ -423,6 +393,10 @@ import JetResponsiveNavLink from "@/Jetstream/ResponsiveNavLink";
 
 export default {
   components: {
+    Popover,
+    PopoverButton,
+    PopoverGroup,
+    PopoverPanel,
     JetApplicationMark,
     JetBanner,
     JetDropdown,
@@ -430,13 +404,6 @@ export default {
     JetNavLink,
     JetResponsiveNavLink,
   },
-
-  data() {
-    return {
-      showingNavigationDropdown: false,
-    };
-  },
-
   methods: {
     logout() {
       this.$inertia.post(route("logout"));
