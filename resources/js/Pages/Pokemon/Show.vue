@@ -2,7 +2,7 @@
     <app-layout>
         <template #header>
             <div class="flex justify-between">
-                <h2 class="font-semibold text-4xl text-gray-800 leading-tight capitalize">
+                <h2 class="font-bold text-5xl text-gray-800 leading-tight capitalize">
                     {{pokemon.identifier}}
                 </h2>
                 <div>
@@ -62,59 +62,69 @@
             </div>
         </template>
 
-        <!-- TODO: Add tabs -->
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <div class="flex space-x-16">
-                <div class="w-1/3">
-                    <img src="https://img.pokemondb.net/artwork/large/pikachu.jpg" alt="">
-                </div>
-                <div class="w-1/3 flex flex-col">
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight capitalize flex-grow">
-                        Pokedex Info
-                    </h2>
-                    <table class="w-full table-auto">
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">National No.</td>
-                            <td class="py-4">{{pokemon.id}}</td>
-                        </tr>
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">Type</td>
-                            <td class="py-4 flex space-x-2">
-                                <div class="py-2 w-20 text-center rounded-sm shadow-md bg-pink-400 font-bold text-sm text-white uppercase">
-                                    Psychic
-                                </div>
-                                <div class="py-2 w-20 text-center rounded-sm shadow-md bg-gray-400 font-bold text-sm text-white uppercase">
-                                    Steel
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">Species</td>
-                            <td class="py-4">Iron Leg Pokemon</td>
-                        </tr>
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">Height</td>
-                            <td class="py-4">{{pokemon.pokemon[0].height}} m</td>
-                        </tr>
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">Weight</td>
-                            <td class="py-4">{{pokemon.pokemon[0].weight}} kg</td>
-                        </tr>
-                        <tr class="border-b-2 border-gray-200">
-                            <td class="py-4">Abilities</td>
-                            <td class="py-4 flex flex-col">
-                                <a href="/" class="text-blue-600" v-for="ability in pokemon.pokemon[0].abilities">
-                                    {{ability.name.name}}
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="w-1/3">
-                    <h2 class="font-semibold text-2xl text-gray-800 leading-tight capitalize">
-                        Base Stats
-                    </h2>
-                </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div>
+                <tabs>
+                    <tab
+                        v-for="(form, index) in pokemon.pokemon"
+                        :key="form.id"
+                        :index="index"
+                        :name="form.identifier"
+                    >
+                        <div class="flex space-x-16">
+                            <div class="w-1/3">
+                                <img src="https://img.pokemondb.net/artwork/large/pikachu.jpg" alt="">
+                            </div>
+                            <div class="w-1/3 flex flex-col">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight capitalize flex-grow">
+                                    Pokedex Info
+                                </h2>
+                                <table class="w-full table-auto">
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">National No.</td>
+                                        <td class="py-4">{{pokemon.id}}</td>
+                                    </tr>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">Type</td>
+                                        <td class="py-4 flex space-x-2">
+                                            <div class="py-2 w-20 text-center rounded-sm shadow-md bg-pink-400 font-bold text-sm text-white uppercase">
+                                                Psychic
+                                            </div>
+                                            <div class="py-2 w-20 text-center rounded-sm shadow-md bg-gray-400 font-bold text-sm text-white uppercase">
+                                                Steel
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">Species</td>
+                                        <td class="py-4">Iron Leg Pokemon</td>
+                                    </tr>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">Height</td>
+                                        <td class="py-4">{{form.height}} m</td>
+                                    </tr>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">Weight</td>
+                                        <td class="py-4">{{form.weight}} kg</td>
+                                    </tr>
+                                    <tr class="border-b-2 border-gray-200">
+                                        <td class="py-4">Abilities</td>
+                                        <td class="py-4 flex flex-col">
+                                            <a href="/" class="text-blue-600" v-for="ability in form.abilities">
+                                                {{ability.name.name}}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="w-1/3">
+                                <h2 class="font-semibold text-2xl text-gray-800 leading-tight capitalize">
+                                    Base Stats
+                                </h2>
+                            </div>
+                        </div>
+                    </tab>
+                </tabs>
             </div>
         </div>
     </app-layout>
@@ -123,6 +133,8 @@
 <script>
 import AppLayout from '@/Layouts/AppLayout'
 import Dropdown from '@/Jetstream/Dropdown'
+import Tabs from "@/Components/Tabs";
+import Tab from "@/Components/Tab";
 import {
     Listbox,
     ListboxButton,
@@ -138,6 +150,8 @@ export default {
         ListboxButton,
         ListboxOptions,
         ListboxOption,
+        Tabs,
+        Tab
     },
     data () {
         return {

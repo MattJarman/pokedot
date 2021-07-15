@@ -20,7 +20,10 @@ mix.js('resources/js/app.js', 'public/js').vue()
     .browserSync({
         proxy: 'http://poke-nginx',
         notify: false,
-        open: false
+        open: false,
+        watchOptions: {
+            ignored: /node_modules/
+        }
     });
 
 if (mix.inProduction()) {
